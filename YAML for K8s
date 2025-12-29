@@ -1,0 +1,85 @@
+Kubernetes YAML Cheat-Sheet (Mandatory Fields Only)
+Resource	apiVersion	kind	metadata	spec / key fields	Notes
+Pod	v1	Pod	name, namespace, labels	containers: list → name, image, ports	Minimal pod: only containers & image required. Labels optional unless used in Service/Deployment.
+Deployment	apps/v1	Deployment	name, namespace	replicas, selector.matchLabels, template → metadata.labels, template → spec → containers	Selector must match template labels. Containers inside template.spec.
+Service (ClusterIP)	v1	Service	name, namespace	type, selector (labels), ports: list → port, targetPort	Selector matches Pod labels directly. ClusterIP default.
+ConfigMap	v1	ConfigMap	name, namespace	data: key-value pairs	No spec. Keys are strings. Can be used in envFrom or mounted as files.
+🧠 Quick Reference Patterns
+1️⃣ Pod Skeleton
+apiVersion: v1
+kind: Pod
+metadata:
+  name: <pod-name>
+  namespace: default
+  labels:
+    app: <name>
+spec:
+  containers:
+  - name: <container-name>
+    image: <image>
+    ports:
+    - containerPort: <port>
+
+2️⃣ Deployment Skeleton
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: <deployment-name>
+  namespace: default
+spec:
+  replicas: <number>
+  selector:
+    matchLabels:
+      app: <label>
+  template:
+    metadata:
+      labels:
+        app: <label>
+    spec:
+      containers:
+      - name: <container-name>
+        image: <image>
+        ports:
+        - containerPort: <port>
+
+3️⃣ Service Skeleton
+apiVersion: v1
+kind: Service
+metadata:
+  name: <service-name>
+  namespace: default
+spec:
+  type: ClusterIP
+  selector:
+    app: <label>
+  ports:
+  - port: <service-port>
+    targetPort: <container-port>
+
+4️⃣ ConfigMap Skeleton
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: <configmap-name>
+  namespace: default
+data:
+  KEY1: value1
+  KEY2: value2
+
+5️⃣ Using ConfigMap in Deployment
+containers:
+- name: <container-name>
+  image: <image>
+  envFrom:
+  - configMapRef:
+      name: <configmap-name>
+
+✅ How to Use This Cheat-Sheet
+
+Pick your resource (Pod, Deployment, Service, ConfigMap).
+
+Fill the placeholders (<name>, <label>, <image>).
+
+Check labels & selectors — they must match for Deployment → Pods and Service → Pods.
+
+Add optional features later: env vars, volumes, probes, resources.
