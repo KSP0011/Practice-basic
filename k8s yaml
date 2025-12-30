@@ -31,3 +31,12 @@ Deployment
 Anything related to Pods goes inside template.
 selector.matchLabels MUST match template.metadata.labels.
 You talk to Deployments, not Pods.
+
+Deployment
+ └── template
+      └── spec
+           └── containers
+                ├── image
+                ├── ports
+                └── env
+This rule saves you from 70% of YAML errors.
