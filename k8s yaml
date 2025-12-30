@@ -1,0 +1,33 @@
+Pod
+ └── spec
+     └── containers
+         ├── name
+         ├── image
+         ├── ports
+
+Anything that runs a container starts with a Pod.
+
+Service
+ └── spec
+     ├── type
+     ├── selector
+     └── ports
+         ├── port
+         └── targetPort
+
+Pods change, Services don’t.
+Service selects Pods using labels, not names.
+
+Deployment
+ └── spec
+     ├── replicas
+     ├── selector
+     │    └── matchLabels
+     └── template
+          ├── metadata
+          │    └── labels
+          └── spec
+               └── containers
+Anything related to Pods goes inside template.
+selector.matchLabels MUST match template.metadata.labels.
+You talk to Deployments, not Pods.
