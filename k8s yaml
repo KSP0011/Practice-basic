@@ -47,3 +47,9 @@ kubectl create secret generic db-secret \
   --from-literal=DB_USER=admin \
   --from-literal=DB_PASSWORD=password \
   --dry-run=client -o yaml
+
+
+******************************Formula to remember the what goes where**************
+template.metadata   → labels, annotations
+template.spec       → pod-level (volumes, restartPolicy, nodeSelector, affinity)
+containers[]        → runtime (image, ports, env, command, args, resources, volumeMounts)
