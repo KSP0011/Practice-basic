@@ -53,3 +53,38 @@ kubectl create secret generic db-secret \
 template.metadata   → labels, annotations
 template.spec       → pod-level (volumes, restartPolicy, nodeSelector, affinity)
 containers[]        → runtime (image, ports, env, command, args, resources, volumeMounts)
+
+
+**********************master yaml template ********************************
+
+Deployment
+├── apiVersion            ← ALWAYS present (AKM)
+├── kind                  ← ALWAYS present
+├── metadata              ← Resource identity
+│   ├── name
+│   ├── labels
+│   └── annotations
+│
+└── spec                  ← Deployment spec (NOT pod yet)
+    ├── replicas
+    ├── selector
+    │   └── matchLabels
+    │
+    └── template           ← Pod template (this creates Pods)
+        ├── metadata       ← Pod identity
+        │   └── labels     ← MUST match selector
+        │
+        └── spec           ← Pod spec (THIS is the real runtime spec)
+            ├── volumes
+            ├── restartPolicy
+            ├── nodeSelector / affinity / tolerations
+            │
+            └── containers
+                ├── name
+                ├── image
+                ├── ports
+                ├── command / args
+                ├── env
+                ├── envFrom
+                ├── resources
+                └── volumeMounts
