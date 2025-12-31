@@ -40,3 +40,10 @@ Deployment
                 ├── ports
                 └── env
 This rule saves you from 70% of YAML errors.
+
+***comand to generate secret with encoding as encoding needs more efforts and additional steps while setting it up using yaml
+
+kubectl create secret generic db-secret \
+  --from-literal=DB_USER=admin \
+  --from-literal=DB_PASSWORD=password \
+  --dry-run=client -o yaml
