@@ -88,3 +88,38 @@ Deployment
                 ├── envFrom
                 ├── resources
                 └── volumeMounts
+
+
+
+**********************service ***************************
+Service
+ ├── apiVersion
+ │     └── v1
+ ├── kind
+ │     └── Service
+ ├── metadata
+ │     ├── name           # Service name
+ │     ├── namespace      # Optional; defaults to 'default'
+ │     └── labels         # Metadata labels (for identification, Helm, monitoring)
+ ├── spec
+ │     ├── type           # ClusterIP | NodePort | LoadBalancer
+ │     │     └── Note: ClusterIP default; NodePort requires optional nodePort; LoadBalancer works with cloud
+ │     ├── selector       # MUST match Pod labels exactly (traffic goes only to Pods matching ALL labels)
+ │     │     ├── label1
+ │     │     ├── label2
+ │     │     └── ...
+ │     │     └── Note: Selector labels do NOT need to match Service metadata labels
+ │     └── ports
+ │           ├── - name       # Optional; required if multiple ports
+ │           ├──   protocol   # TCP/UDP (HTTP/HTTPS is handled at app level)
+ │           ├──   port       # Service port exposed internally
+ │           └──   targetPort # Container port in Pods
+ │
+ └── Notes/Interview tips:
+       - Service labels (metadata.labels) are independent of selector; used for organization or queries
+       - Selector labels define which Pods get traffic
+       - Service can select multiple Pods with multiple labels
+       - Multi-port Service allows exposing multiple application endpoints
+       - type: NodePort or LoadBalancer only changes how traffic enters the cluster; other spec remains same
+       - NodePort optional: nodePort (range 30000-32767)
+       - LoadBalancer optional: external cloud IP created
