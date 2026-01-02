@@ -123,3 +123,51 @@ Service
        - type: NodePort or LoadBalancer only changes how traffic enters the cluster; other spec remains same
        - NodePort optional: nodePort (range 30000-32767)
        - LoadBalancer optional: external cloud IP created
+***************PV****************************
+PersistentVolume              # PV is cluster-scoped; no namespace
+ ├── apiVersion: v1           # Must be lowercase
+ ├── kind: PersistentVolume   # PascalCase, case-sensitive
+ ├── metadata
+ │    ├── name                # Required, unique in cluster
+ │    └── labels (optional)   # Helpful for selection
+ ├── spec
+ │    ├── capacity
+ │    │    └── storage        # Required, e.g., 10Gi
+ │    ├── accessModes         # Required, list: ReadWriteOnce / ReadWriteMany / ReadOnlyMany
+ │    ├── persistentVolumeReclaimPolicy
+ │    │    └── Delete / Retain # Case-sensitive, controls PV lifecycle
+ │    ├── storageClassName (optional) # Links PV to StorageClass for dynamic provisioning
+ │    ├── hostPath (example)
+ │    │    └── path           # Node path, used for local testing only
+ │    └── nfs (example)
+ │         ├── path           # Path on NFS server
+ │         └── server         # NFS server hostname/IP
+
+# Important Points:
+# - PV is cluster-scoped → no namespace required
+# - Case-sensitive: kind, persistentVolumeReclaimPolicy, accessModes
+# - Multiple volume types supported: hostPath, NFS, cloud disks
+# - storageClassName used for dynamic provisioning
+
+
+*********************PVC***************************
+PersistentVolumeClaim         # PVC is namespaced; requests storage from PV
+ ├── apiVersion: v1           # Must be lowercase
+ ├── kind: PersistentVolumeClaim  # PascalCase, case-sensitive
+ ├── metadata
+ │    ├── name                # Required
+ │    └── namespace           # PVC is namespaced, must exist
+ ├── spec
+ │    ├── accessModes         # List; must be compatible with PV
+ │    ├── resources
+ │    │    └── requests
+ │    │         └── storage   # Required; size requested
+ │    ├── storageClassName (optional) # Used for dynamic provisioning
+ │    └── volumeName (optional)      # Bind to specific PV if needed
+
+# Important Points:
+# - PVC is namespaced → must specify namespace
+# - Case-sensitive: kind, accessModes, resources.requests.storage
+# - Binds automatically to compatible PV
+# - volumeName can manually bind to PV (rare in production)
+
