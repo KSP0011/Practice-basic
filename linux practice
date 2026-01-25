@@ -1,0 +1,113 @@
+🐧 Linux Practice – Session 1 Summary
+Topic: System Monitoring Basics (DevOps Core Skill)
+🎯 Session Goal
+
+Learn how to quickly assess Linux system health by monitoring:
+
+CPU
+
+Memory
+
+Disk
+
+Processes
+(as done in real production troubleshooting)
+
+🔹 Core Commands Covered
+1️⃣ CPU & Process Monitoring
+top
+htop
+
+
+Key points:
+
+%CPU → process-level CPU usage
+
+load average → system load (1m, 5m, 15m)
+
+us = user CPU, sy = system CPU, id = idle
+
+Rule (Interview):
+
+Load average higher than CPU cores = system overload
+
+2️⃣ Memory Monitoring
+free -h
+
+
+Important:
+
+Focus on available, not free
+
+High memory usage is OK unless swap is increasing
+
+Find memory-heavy processes:
+
+ps aux --sort=-%mem | head
+
+3️⃣ Disk Space Monitoring
+df -h
+
+
+Watch / and /var
+
+Disk usage > 80% = risk
+
+Check directory sizes:
+
+du -sh /var/log/*
+
+
+Real-world issue:
+Logs filling disk is one of the most common production failures.
+
+4️⃣ Process Troubleshooting
+
+Find processes:
+
+ps -ef | grep <process>
+
+
+Kill process:
+
+kill <PID>
+kill -9 <PID>   # last resort
+
+
+Rule:
+Avoid kill -9 unless absolutely necessary.
+
+5️⃣ System Load & Uptime
+uptime
+
+
+Shows how long system is running
+
+Displays load average
+
+🔹 DevOps Workflow Practiced
+Running commands side by side
+
+Typical setup:
+
+Terminal 1 → top
+
+Terminal 2 → watch free -h
+
+Terminal 3 → df -h
+
+Why this matters:
+
+Helps correlate CPU, memory, and disk issues
+
+This is how real incident debugging is done
+
+🧠 Troubleshooting Patterns Learned
+Observation	Meaning
+High CPU, normal memory	CPU-bound process
+High memory + swap usage	Memory leak / low RAM
+Disk usage increasing	Logs or temp files
+High load, low CPU	Possible I/O wait (next session)
+🗣 Interview-Ready One-Liner
+
+“To check system health, I usually run top, free -h, and df -h in parallel to correlate CPU, memory, and disk behavior.”
