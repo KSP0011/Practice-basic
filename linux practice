@@ -1,13 +1,7 @@
 🐧 Linux Practice – Session 1 Summary
-Topic: System Monitoring Basics (DevOps Core Skill)
-🎯 Session Goal
-
-Learn how to quickly assess Linux system health by monitoring:
-
+earn how to quickly assess Linux system health by monitoring:
 CPU
-
 Memory
-
 Disk
 
 Processes
@@ -18,69 +12,45 @@ Processes
 top
 htop
 
-
 Key points:
-
 %CPU → process-level CPU usage
-
 load average → system load (1m, 5m, 15m)
-
 us = user CPU, sy = system CPU, id = idle
-
 Rule (Interview):
-
 Load average higher than CPU cores = system overload
 
 2️⃣ Memory Monitoring
 free -h
 
-
 Important:
-
 Focus on available, not free
-
 High memory usage is OK unless swap is increasing
-
 Find memory-heavy processes:
-
 ps aux --sort=-%mem | head
 
 3️⃣ Disk Space Monitoring
 df -h
-
-
-Watch / and /var
-
+watch / and /var
 Disk usage > 80% = risk
-
 Check directory sizes:
-
 du -sh /var/log/*
-
 
 Real-world issue:
 Logs filling disk is one of the most common production failures.
 
 4️⃣ Process Troubleshooting
-
 Find processes:
-
 ps -ef | grep <process>
 
-
 Kill process:
-
 kill <PID>
 kill -9 <PID>   # last resort
-
 
 Rule:
 Avoid kill -9 unless absolutely necessary.
 
 5️⃣ System Load & Uptime
 uptime
-
-
 Shows how long system is running
 
 Displays load average
