@@ -1,5 +1,5 @@
 🐧 Linux Practice – Session 1 Summary
-earn how to quickly assess Linux system health by monitoring:
+Learn how to quickly assess Linux system health by monitoring:
 CPU
 Memory
 Disk
@@ -77,7 +77,6 @@ Observation	Meaning
 High CPU, normal memory	CPU-bound process
 High memory + swap usage	Memory leak / low RAM
 Disk usage increasing	Logs or temp files
-High load, low CPU	Possible I/O wait (next session)
-🗣 Interview-Ready One-Liner
 
 “To check system health, I usually run top, free -h, and df -h in parallel to correlate CPU, memory, and disk behavior.”
+
